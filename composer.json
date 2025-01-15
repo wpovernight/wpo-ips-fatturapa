@@ -1,0 +1,12 @@
+{
+	"name": "wpovernight/wpo-ips-fatturapa",
+	"description": "PDF Invoices & Packing Slips for WooCommerce - FatturaPA",
+	"autoload": {
+		"psr-4": {
+			"WPO\\IPS\\FatturaPA\\": "ubl/"
+		}
+	},
+	"config": {
+		"platform-check": false
+	}
+}
