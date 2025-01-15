@@ -115,6 +115,7 @@ if ( ! class_exists( 'WPO_IPS_FatturaPA' ) ) {
 			
 			add_filter( 'wpo_wcpdf_document_ubl_settings_formats', array( $this, 'add_format_to_ubl_settings' ), 10, 2 );
 			add_filter( 'wpo_wc_ubl_document_root_element', array( $this, 'add_root_element' ), 10, 2 );
+			add_filter( 'wpo_wc_ubl_document_additional_root_elements', array( $this, 'add_additional_root_elements' ), 10, 2 );
 			add_filter( 'wpo_wc_ubl_document_format', array( $this, 'set_document_format' ), 10, 2 );
 			add_filter( 'wpo_wc_ubl_document_namespaces', array( $this, 'set_document_namespaces' ), 10, 2 );
 		}
@@ -200,6 +201,17 @@ if ( ! class_exists( 'WPO_IPS_FatturaPA' ) ) {
 			}
 			
 			return $root_element;
+		}
+		
+		/**
+		 * Add additional root elements
+		 *
+		 * @param array $additional_root_elements
+		 * @param \WPO\IPS\UBL\Documents\UblDocument $ubl_document
+		 * @return array
+		 */
+		public function add_additional_root_elements( array $additional_root_elements, \WPO\IPS\UBL\Documents\UblDocument $ubl_document ): array {
+			return array( 'versione' => 'FPA12' );
 		}
 		
 		/**
