@@ -223,6 +223,17 @@ if ( ! class_exists( 'WPO_IPS_FatturaPA' ) ) {
 							'root' => 'FatturaElettronicaHeader',
 						),
 					),
+					'fatturaelettronicabody' => array(
+						'enabled' => true,
+						'handler' => array(
+							\WPO\IPS\FatturaPA\Handlers\Body\DatiGeneraliHandler::class,
+							\WPO\IPS\FatturaPA\Handlers\Body\DatiBeniServiziHandler::class,
+							\WPO\IPS\FatturaPA\Handlers\Body\DatiPagamentoHandler::class,
+						),
+						'options' => array(
+							'root' => 'FatturaElettronicaBody',
+						),
+					),
 				), $ubl_document );
 			}
 			

@@ -22,6 +22,9 @@ class ComposerStaticInit782560f878aa32b033592b6bd6e42011
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'WPO\\IPS\\FatturaPA\\Handlers\\Body\\DatiBeniServiziHandler' => __DIR__ . '/../..' . '/ubl/Handlers/Body/DatiBeniServiziHandler.php',
+        'WPO\\IPS\\FatturaPA\\Handlers\\Body\\DatiGeneraliHandler' => __DIR__ . '/../..' . '/ubl/Handlers/Body/DatiGeneraliHandler.php',
+        'WPO\\IPS\\FatturaPA\\Handlers\\Body\\DatiPagamentoHandler' => __DIR__ . '/../..' . '/ubl/Handlers/Body/DatiPagamentoHandler.php',
         'WPO\\IPS\\FatturaPA\\Handlers\\Header\\CedentePrestatoreHandler' => __DIR__ . '/../..' . '/ubl/Handlers/Header/CedentePrestatoreHandler.php',
         'WPO\\IPS\\FatturaPA\\Handlers\\Header\\CessionarioCommittenteHandler' => __DIR__ . '/../..' . '/ubl/Handlers/Header/CessionarioCommittenteHandler.php',
         'WPO\\IPS\\FatturaPA\\Handlers\\Header\\DatiTrasmissioneHandler' => __DIR__ . '/../..' . '/ubl/Handlers/Header/DatiTrasmissioneHandler.php',

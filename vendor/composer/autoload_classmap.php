@@ -7,6 +7,9 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
+    'WPO\\IPS\\FatturaPA\\Handlers\\Body\\DatiBeniServiziHandler' => $baseDir . '/ubl/Handlers/Body/DatiBeniServiziHandler.php',
+    'WPO\\IPS\\FatturaPA\\Handlers\\Body\\DatiGeneraliHandler' => $baseDir . '/ubl/Handlers/Body/DatiGeneraliHandler.php',
+    'WPO\\IPS\\FatturaPA\\Handlers\\Body\\DatiPagamentoHandler' => $baseDir . '/ubl/Handlers/Body/DatiPagamentoHandler.php',
     'WPO\\IPS\\FatturaPA\\Handlers\\Header\\CedentePrestatoreHandler' => $baseDir . '/ubl/Handlers/Header/CedentePrestatoreHandler.php',
     'WPO\\IPS\\FatturaPA\\Handlers\\Header\\CessionarioCommittenteHandler' => $baseDir . '/ubl/Handlers/Header/CessionarioCommittenteHandler.php',
     'WPO\\IPS\\FatturaPA\\Handlers\\Header\\DatiTrasmissioneHandler' => $baseDir . '/ubl/Handlers/Header/DatiTrasmissioneHandler.php',
