@@ -89,6 +89,7 @@ if ( ! class_exists( 'WPO_IPS_FatturaPA' ) ) {
 			$this->plugin_path   = plugin_dir_path( __FILE__ );
 			$plugin_file         = basename( $this->plugin_path ) . '/wpo-ips-fatturapa.php';
 			$github_updater_file = $this->plugin_path . 'github-updater/GitHubUpdater.php';
+			$autoloader_file     = $this->plugin_path . 'vendor/autoload.php';
 			
 			if ( ! class_exists( '\\WPO\\GitHubUpdater\\GitHubUpdater' ) && file_exists( $github_updater_file ) ) {
 				require_once $github_updater_file;
@@ -105,7 +106,9 @@ if ( ! class_exists( 'WPO_IPS_FatturaPA' ) ) {
 				return;
 			}
 			
-			include_once dirname( __FILE__ ) . '/vendor/autoload.php';
+			if ( file_exists( $autoloader_file ) ) {
+				require_once $autoloader_file;
+			}
 			
 			add_action( 'init', array( $this, 'load_translations' ) );
 			add_action( 'before_woocommerce_init', array( $this, 'custom_order_tables_compatibility' ) );
@@ -209,7 +212,17 @@ if ( ! class_exists( 'WPO_IPS_FatturaPA' ) ) {
 		public function set_document_format( array $format, \WPO\IPS\UBL\Documents\UblDocument $ubl_document ): array {
 			if ( $this->is_fatturapa_ubl_document( $ubl_document ) ) {
 				$format = apply_filters( 'wpo_ips_fatturapa_document_format', array(
-					// handlers
+					'fatturaelettronicaheader' => array(
+						'enabled' => true,
+						'handler' => array(
+							\WPO\IPS\FatturaPA\Handlers\Header\DatiTrasmissioneHandler::class,
+							\WPO\IPS\FatturaPA\Handlers\Header\CedentePrestatoreHandler::class,
+							\WPO\IPS\FatturaPA\Handlers\Header\CessionarioCommittenteHandler::class,
+						),
+						'options' => array(
+							'root' => 'FatturaElettronicaHeader',
+						),
+					),
 				), $ubl_document );
 			}
 			
