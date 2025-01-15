@@ -54,7 +54,7 @@ if ( ! class_exists( 'WPO_IPS_FatturaPA' ) ) {
 		 *
 		 * @var string
 		 */
-		public $root_element = 'p:FatturaElettronica';
+		public $root_element = '{http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2}FatturaElettronica';
 		
 		/**
 		 * Plugin path
