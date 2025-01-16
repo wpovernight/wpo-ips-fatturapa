@@ -11,36 +11,70 @@ if ( ! defined( 'ABSPATH' ) ) {
 class CedentePrestatoreHandler extends UblHandler {
 
 	public function handle( $data, $options = array() ) {
-		// <CedentePrestatore>
-		// <DatiAnagrafici>
-		// 	<IdFiscaleIVA>
-		// 	<IdPaese>IT</IdPaese>
-		// 	<IdCodice>01234567890</IdCodice>
-		// 	</IdFiscaleIVA>
-		// 	<Anagrafica>
-		// 	<Denominazione>ALPHA SRL</Denominazione>
-		// 	</Anagrafica>
-		// 	<RegimeFiscale>RF19</RegimeFiscale>
-		// </DatiAnagrafici>
-		// <Sede>
-		// 	<Indirizzo>VIALE ROMA 543</Indirizzo>
-		// 	<CAP>07100</CAP>
-		// 	<Comune>SASSARI</Comune>
-		// 	<Provincia>SS</Provincia>
-		// 	<Nazione>IT</Nazione>
-		// </Sede>
-		// </CedentePrestatore>
+		$wooCountry    = get_option( 'woocommerce_default_country', '' );
+		$idPaese       = wc_format_country_state_string( $wooCountry )['country'];
+		$idCodice      = ! empty( $this->document->order_document ) ? $this->document->order_document->get_shop_vat_number() : '';
+		$denominazione = ! empty( $this->document->order_document ) ? $this->document->order_document->get_shop_name()       : '';
+		$indirizzo     = ! empty( $this->document->order_document ) ? $this->document->order_document->get_shop_address()    : get_option( 'woocommerce_store_address' );
+		$cap           = get_option( 'woocommerce_store_postcode', '' );
+		$comune        = get_option( 'woocommerce_store_city', '' );
+		
+		list( $country, $provincia ) = explode( ':', $wooCountry );
 		
 		$cedentePrestatore = array(
 			'name'  => 'CedentePrestatore',
 			'value' => array(
 				array(
 					'name'  => 'DatiAnagrafici',
-					'value' => 'test',
+					'value' => array(
+						array(
+							'name' => 'IdFiscaleIVA',
+							'value' => array(
+								array(
+									'name'  => 'IdPaese',
+									'value' => $idPaese,
+								),
+								array(
+									'name'  => 'IdCodice',
+									'value' => $idCodice,
+								),
+							),
+						),
+						array(
+							'name'  => 'Anagrafica',
+							'value' => array(
+								array(
+									'name'  => 'Denominazione',
+									'value' => $denominazione,
+								),
+							),
+						),
+					),
 				),
 				array(
 					'name'  => 'Sede',
-					'value' => 'test',
+					'value' => array(
+						array(
+							'name'  => 'Indirizzo',
+							'value' => $indirizzo,
+						),
+						array(
+							'name'  => 'CAP',
+							'value' => $cap,
+						),
+						array(
+							'name'  => 'Comune',
+							'value' => $comune,
+						),
+						array(
+							'name'  => 'Provincia',
+							'value' => $provincia,
+						),
+						array(
+							'name'  => 'Nazione',
+							'value' => $idPaese,
+						),
+					),
 				),
 			),
 		);
