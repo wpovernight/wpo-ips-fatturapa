@@ -10,11 +10,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class DatiTrasmissioneHandler extends UblHandler {
 
-	public function handle( $data, $options = array() ) {		
-		$shopVatNumber      = ! empty( $this->document->order_document ) ? $this->document->order_document->get_shop_vat_number() : '';
-		$shopCountryCode    = wc_format_country_state_string( get_option( 'woocommerce_default_country', '' ) )['country'];
-		$codiceDestinatario = $this->document->order_document->get_setting( 'codice_destinatario', false, 'ubl' ) ?: '0000000';
-		$pecDestinatario    = '0000000' === $codiceDestinatario ? $this->document->order_document->get_setting( 'pec_destinatario', false, 'ubl' ) : '';
+	public function handle( $data, $options = array() ) {
+		$idPaese             = wc_format_country_state_string( get_option( 'woocommerce_default_country', '' ) )['country'];	
+		$idCodice            = ! empty( $this->document->order_document ) ? $this->document->order_document->get_shop_vat_number() : '';
+		$progressivoInvio    = ! empty( $this->document->order_document->get_number() ) ? $this->document->order_document->get_number()->get_formatted() : '';
+		$formatoTrasmissione = 'FPR12';
+		$codiceDestinatario  = $this->document->order_document->get_setting( 'codice_destinatario', false, 'ubl' ) ?: '0000000';
+		$pecDestinatario     = '0000000' === $codiceDestinatario ? $this->document->order_document->get_setting( 'pec_destinatario', false, 'ubl' ) : '';
 		
 		$datiTrasmissione = array(
 			'name'  => 'DatiTrasmissione',
@@ -24,21 +26,21 @@ class DatiTrasmissioneHandler extends UblHandler {
 					'value' => array(
 						array(
 							'name'  => 'IdPaese',
-							'value' => $shopCountryCode,
+							'value' => $idPaese,
 						),
 						array(
 							'name'  => 'IdCodice',
-							'value' => $shopVatNumber,
+							'value' => $idCodice,
 						),
 					),
 				),
 				array(
 					'name'  => 'ProgressivoInvio',
-					'value' => ! empty( $this->document->order_document->get_number() ) ? $this->document->order_document->get_number()->get_formatted() : '',
+					'value' => $progressivoInvio,
 				),
 				array(
 					'name'  => 'FormatoTrasmissione',
-					'value' => 'FPR12',
+					'value' => $formatoTrasmissione,
 				),
 				array(
 					'name'  => 'CodiceDestinatario',
