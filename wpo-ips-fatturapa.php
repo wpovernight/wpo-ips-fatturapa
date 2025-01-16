@@ -211,7 +211,11 @@ if ( ! class_exists( 'WPO_IPS_FatturaPA' ) ) {
 		 * @return array
 		 */
 		public function add_additional_root_elements( array $additional_root_elements, \WPO\IPS\UBL\Documents\UblDocument $ubl_document ): array {
-			return array( 'versione' => 'FPA12' );
+			if ( $this->is_fatturapa_ubl_document( $ubl_document ) ) {
+				$additional_root_elements['versione'] = 'FPA12';
+			}
+			
+			return $additional_root_elements;
 		}
 		
 		/**
