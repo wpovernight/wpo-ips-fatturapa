@@ -33,7 +33,7 @@ if ( ! class_exists( 'WPO_IPS_FatturaPA' ) ) {
 		 *
 		 * @var string
 		 */
-		public $base_plugin_version = '3.9.5-beta-11';
+		public $base_plugin_version = '3.9.5-beta-12';
 		
 		/**
 		 * UBL format
