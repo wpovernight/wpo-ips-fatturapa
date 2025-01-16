@@ -11,32 +11,64 @@ if ( ! defined( 'ABSPATH' ) ) {
 class CessionarioCommittenteHandler extends UblHandler {
 
 	public function handle( $data, $options = array() ) {
-		// <CessionarioCommittente>
-		// <DatiAnagrafici>
-		// 	<CodiceFiscale>09876543210</CodiceFiscale>
-		// 	<Anagrafica>
-		// 	<Denominazione>AMMINISTRAZIONE BETA</Denominazione>
-		// 	</Anagrafica>
-		// </DatiAnagrafici>
-		// <Sede>
-		// 	<Indirizzo>VIA TORINO 38-B</Indirizzo>
-		// 	<CAP>00145</CAP>
-		// 	<Comune>ROMA</Comune>
-		// 	<Provincia>RM</Provincia>
-		// 	<Nazione>IT</Nazione>
-		// </Sede>
-		// </CessionarioCommittente>
+		$codiceFiscale   = wpo_wcpdf_get_order_customer_vat_number( $this->document->order );
+		$denominazione   = $this->document->order->get_formatted_billing_full_name();
+		$billing_company = $this->document->order->get_billing_company();
+		$indirizzo       = $this->document->order->get_billing_address_1() . ' ' . $this->document->order->get_billing_address_2();
+		$cap             = $this->document->order->get_billing_postcode();
+		$comune          = $this->document->order->get_billing_city();
+		$provincia       = $this->document->order->get_billing_state();
+		$nazione         = $this->document->order->get_billing_country();
+
+		if ( ! empty( $billing_company ) ) {
+			$denominazione = $billing_company;
+		}
 		
 		$cessionarioCommittente = array(
 			'name'  => 'CessionarioCommittente',
 			'value' => array(
 				array(
 					'name'  => 'DatiAnagrafici',
-					'value' => 'test',
+					'value' => array(
+						array(
+							'name' => 'CodiceFiscale',
+							'value' => $codiceFiscale,
+						),
+						array(
+							'name' => 'Anagrafica',
+							'value' => array(
+								array(
+									'name' => 'Denominazione',
+									'value' => wpo_ips_ubl_sanitize_string( $denominazione ),
+								),
+							),
+						),
+					),
 				),
 				array(
 					'name'  => 'Sede',
-					'value' => 'test',
+					'value' => array(
+						array(
+							'name' => 'Indirizzo',
+							'value' => wpo_ips_ubl_sanitize_string( $indirizzo ),
+						),
+						array(
+							'name' => 'CAP',
+							'value' => $cap,
+						),
+						array(
+							'name' => 'Comune',
+							'value' => wpo_ips_ubl_sanitize_string( $comune ),
+						),
+						array(
+							'name' => 'Provincia',
+							'value' => $provincia,
+						),
+						array(
+							'name' => 'Nazione',
+							'value' => $nazione,
+						),
+					),
 				),
 			),
 		);

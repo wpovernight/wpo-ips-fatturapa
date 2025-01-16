@@ -45,7 +45,7 @@ class CedentePrestatoreHandler extends UblHandler {
 							'value' => array(
 								array(
 									'name'  => 'Denominazione',
-									'value' => $denominazione,
+									'value' => wpo_ips_ubl_sanitize_string( $denominazione ),
 								),
 							),
 						),
@@ -56,7 +56,7 @@ class CedentePrestatoreHandler extends UblHandler {
 					'value' => array(
 						array(
 							'name'  => 'Indirizzo',
-							'value' => $indirizzo,
+							'value' => wpo_ips_ubl_sanitize_string( $indirizzo ),
 						),
 						array(
 							'name'  => 'CAP',
@@ -64,7 +64,7 @@ class CedentePrestatoreHandler extends UblHandler {
 						),
 						array(
 							'name'  => 'Comune',
-							'value' => $comune,
+							'value' => wpo_ips_ubl_sanitize_string( $comune ),
 						),
 						array(
 							'name'  => 'Provincia',
