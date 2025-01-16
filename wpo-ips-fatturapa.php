@@ -118,6 +118,8 @@ if ( ! class_exists( 'WPO_IPS_FatturaPA' ) ) {
 			add_filter( 'wpo_wc_ubl_document_additional_root_elements', array( $this, 'add_additional_root_elements' ), 10, 2 );
 			add_filter( 'wpo_wc_ubl_document_format', array( $this, 'set_document_format' ), 10, 2 );
 			add_filter( 'wpo_wc_ubl_document_namespaces', array( $this, 'set_document_namespaces' ), 10, 2 );
+			add_filter( 'wpo_wcpdf_settings_fields_documents_invoice_ubl', array( $this, 'add_additional_settings_fields' ), 10, 5 );
+			add_filter( 'wpo_wcpdf_document_settings_categories', array( $this, 'map_additional_settings_fields_to_categories' ), 10, 3 );
 		}
 		
 		/**
@@ -274,6 +276,71 @@ if ( ! class_exists( 'WPO_IPS_FatturaPA' ) ) {
 			}
 			
 			return $namespaces;
+		}
+		
+		/**
+		 * Add additional settings fields
+		 *
+		 * @param array $settings_fields
+		 * @param string $page
+		 * @param string $option_group
+		 * @param string $option_name
+		 * @param \WPO\IPS\Documents\OrderDocument $document
+		 * @return array
+		 */
+		public function add_additional_settings_fields( array $settings_fields, string $page, string $option_group, string $option_name, \WPO\IPS\Documents\OrderDocument $document ): array {
+			$settings_fields[] = array(
+				'type'     => 'setting',
+				'id'       => 'codice_destinatario',
+				'title'    => __( 'Recipient Code:', 'wpo-ips-fatturapa' ),
+				'callback' => 'text_input',
+				'section'  => $document->type . '_ubl',
+				'args'     => array(
+					'option_name' => $option_name,
+					'id'          => 'codice_destinatario',
+					'description' => sprintf(
+						/* translators: 0000000 code */
+						__( 'The unique code identifying the recipient in the SDI system. Enter %s if the recipient uses a PEC email.', 'wpo-ips-fatturapa' ),
+						'<code>0000000</code>'
+					),
+				)
+			);
+			
+			$settings_fields[] = array(
+				'type'     => 'setting',
+				'id'       => 'pec_destinatario',
+				'title'    => __( 'Certified Email Address:', 'wpo-ips-fatturapa' ),
+				'callback' => 'email_input',
+				'section'  => $document->type . '_ubl',
+				'args'     => array(
+					'option_name' => $option_name,
+					'id'          => 'pec_destinatario',
+					'description' => sprintf(
+						/* translators: 0000000 code */
+						__( 'The PEC email address of the recipient. This field is required if the Recipient Code is set to %s.', 'wpo-ips-fatturapa' ),
+						'<code>0000000</code>'
+					),
+				)
+			);
+			
+			return $settings_fields;
+		}
+		
+		/**
+		 * Map additional settings fields to categories
+		 *
+		 * @param array $settings_categories
+		 * @param string $output_format
+		 * @param \WPO\IPS\Documents\OrderDocument $document
+		 * @return array
+		 */
+		public function map_additional_settings_fields_to_categories( array $settings_categories, string $output_format, \WPO\IPS\Documents\OrderDocument $document ): array {
+			if ( 'ubl' === $output_format ) {
+				$settings_categories['general']['members'][] = 'codice_destinatario';
+				$settings_categories['general']['members'][] = 'pec_destinatario';
+			}
+			
+			return $settings_categories;
 		}
 
 	}
