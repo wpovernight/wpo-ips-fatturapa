@@ -11,6 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class DatiGeneraliHandler extends UblHandler {
 
 	public function handle( $data, $options = array() ) {
+		$tipoDocumento   = 'TD01';
 		$divisaDocumento = $this->document->order->get_currency();
 		$dataDocumento   = $this->document->order_document->get_date()->date_i18n( 'Y-m-d' );
 		$numeroDocumento = ! empty( $this->document->order_document->get_number() ) ? $this->document->order_document->get_number()->get_formatted() : '';
@@ -23,7 +24,7 @@ class DatiGeneraliHandler extends UblHandler {
 					'value' => array(
 						array(
 							'name'  => 'TipoDocumento',
-							'value' => 'TD01',
+							'value' => $tipoDocumento,
 						),
 						array(
 							'name'  => 'Divisa',
