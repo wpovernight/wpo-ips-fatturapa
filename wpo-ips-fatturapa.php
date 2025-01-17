@@ -33,7 +33,7 @@ if ( ! class_exists( 'WPO_IPS_FatturaPA' ) ) {
 		 *
 		 * @var string
 		 */
-		public $base_plugin_version = '3.9.5-beta-12';
+		public $base_plugin_version = '3.9.5-beta-13';
 		
 		/**
 		 * UBL format
@@ -113,6 +113,7 @@ if ( ! class_exists( 'WPO_IPS_FatturaPA' ) ) {
 			add_action( 'init', array( $this, 'load_translations' ) );
 			add_action( 'before_woocommerce_init', array( $this, 'custom_order_tables_compatibility' ) );
 			
+			add_filter( 'wpo_ips_ubl_is_country_format_extension_active', '__return_true' );
 			add_filter( 'wpo_wcpdf_document_ubl_settings_formats', array( $this, 'add_format_to_ubl_settings' ), 10, 2 );
 			add_filter( 'wpo_wc_ubl_document_root_element', array( $this, 'add_root_element' ), 10, 2 );
 			add_filter( 'wpo_wc_ubl_document_additional_root_elements', array( $this, 'add_additional_root_elements' ), 10, 2 );
