@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class CessionarioCommittenteHandler extends UblHandler {
 
 	public function handle( $data, $options = array() ) {
-		$codiceFiscale   = wpo_wcpdf_get_order_customer_vat_number( $this->document->order );
+		$codiceFiscale   = wpo_wcpdf_get_order_customer_vat_number( $this->document->order ) ?: '12345678901';
 		$denominazione   = $this->document->order->get_formatted_billing_full_name();
 		$billing_company = $this->document->order->get_billing_company();
 		$indirizzo       = $this->document->order->get_billing_address_1() . ' ' . $this->document->order->get_billing_address_2();
@@ -31,11 +31,11 @@ class CessionarioCommittenteHandler extends UblHandler {
 					'name'  => 'DatiAnagrafici',
 					'value' => array(
 						array(
-							'name' => 'CodiceFiscale',
+							'name'  => 'CodiceFiscale',
 							'value' => $codiceFiscale,
 						),
 						array(
-							'name' => 'Anagrafica',
+							'name'  => 'Anagrafica',
 							'value' => array(
 								array(
 									'name' => 'Denominazione',
@@ -49,23 +49,23 @@ class CessionarioCommittenteHandler extends UblHandler {
 					'name'  => 'Sede',
 					'value' => array(
 						array(
-							'name' => 'Indirizzo',
+							'name'  => 'Indirizzo',
 							'value' => wpo_ips_ubl_sanitize_string( $indirizzo ),
 						),
 						array(
-							'name' => 'CAP',
+							'name'  => 'CAP',
 							'value' => $cap,
 						),
 						array(
-							'name' => 'Comune',
+							'name'  => 'Comune',
 							'value' => wpo_ips_ubl_sanitize_string( $comune ),
 						),
 						array(
-							'name' => 'Provincia',
+							'name'  => 'Provincia',
 							'value' => $provincia,
 						),
 						array(
-							'name' => 'Nazione',
+							'name'  => 'Nazione',
 							'value' => $nazione,
 						),
 					),

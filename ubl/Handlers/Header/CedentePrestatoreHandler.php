@@ -49,6 +49,10 @@ class CedentePrestatoreHandler extends UblHandler {
 								),
 							),
 						),
+						array(
+							'name'  => 'RegimeFiscale',
+							'value' => 'RF01',
+						),
 					),
 				),
 				array(

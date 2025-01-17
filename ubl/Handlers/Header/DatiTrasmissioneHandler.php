@@ -13,7 +13,7 @@ class DatiTrasmissioneHandler extends UblHandler {
 	public function handle( $data, $options = array() ) {
 		$idPaese             = wc_format_country_state_string( get_option( 'woocommerce_default_country', '' ) )['country'];	
 		$idCodice            = ! empty( $this->document->order_document ) ? $this->document->order_document->get_shop_vat_number() : '';
-		$progressivoInvio    = 'ORDER-' . str_pad( $this->document->order->get_id(), 5, '0', STR_PAD_LEFT );
+		$progressivoInvio    = str_pad( $this->document->order->get_id(), 10, '0', STR_PAD_LEFT );
 		$formatoTrasmissione = 'FPR12';
 		$codiceDestinatario  = $this->document->order_document->get_setting( 'codice_destinatario', false, 'ubl' ) ?: '0000000';
 		$pecDestinatario     = '0000000' === $codiceDestinatario ? $this->document->order_document->get_setting( 'pec_destinatario', false, 'ubl' ) : '';
