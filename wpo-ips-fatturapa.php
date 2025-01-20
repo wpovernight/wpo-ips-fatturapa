@@ -121,6 +121,7 @@ if ( ! class_exists( 'WPO_IPS_FatturaPA' ) ) {
 			add_filter( 'wpo_wc_ubl_document_namespaces', array( $this, 'set_document_namespaces' ), 10, 2 );
 			add_filter( 'wpo_wcpdf_settings_fields_documents_invoice_ubl', array( $this, 'add_additional_settings_fields' ), 10, 5 );
 			add_filter( 'wpo_wcpdf_document_settings_categories', array( $this, 'map_additional_settings_fields_to_categories' ), 10, 3 );
+			add_filter( 'wpo_wcpdf_ubl_tax_reasons', array( $this, 'add_tax_reasons' ) );
 		}
 		
 		/**
@@ -342,6 +343,37 @@ if ( ! class_exists( 'WPO_IPS_FatturaPA' ) ) {
 			}
 			
 			return $settings_categories;
+		}
+		
+		/**
+		 * Add tax reasons
+		 *
+		 * @param array $reasons
+		 * @return array
+		 */
+		public function add_tax_reasons( array $reasons ): array {
+			return array(
+				'N1'   => __( 'Excluded under Article 15 of Presidential Decree 633/72', 'wpo-ips-fatturapa' ),
+				'N2.1' => __( 'Not taxable - exports', 'wpo-ips-fatturapa' ),
+				'N2.2' => __( 'Not taxable - intra-community supplies', 'wpo-ips-fatturapa' ),
+				'N3.1' => __( 'Exempt - exports', 'wpo-ips-fatturapa' ),
+				'N3.2' => __( 'Exempt - intra-community supplies', 'wpo-ips-fatturapa' ),
+				'N3.3' => __( 'Exempt - operations treated as exports', 'wpo-ips-fatturapa' ),
+				'N3.4' => __( 'Exempt - other operations under Article 10 of Presidential Decree 633/72', 'wpo-ips-fatturapa' ),
+				'N3.5' => __( 'Exempt - services provided to non-residents (Article 7-ter)', 'wpo-ips-fatturapa' ),
+				'N3.6' => __( 'Exempt - other cases', 'wpo-ips-fatturapa' ),
+				'N4'   => __( 'Exempt transactions (general exemption)', 'wpo-ips-fatturapa' ),
+				'N5'   => __( 'Regime of margin under Article 36 of Presidential Decree 41/1995', 'wpo-ips-fatturapa' ),
+				'N6.1' => __( 'Reverse charge - supply of gold and pure silver', 'wpo-ips-fatturapa' ),
+				'N6.2' => __( 'Reverse charge - subcontractors in the construction sector', 'wpo-ips-fatturapa' ),
+				'N6.3' => __( 'Reverse charge - sales of electronic products', 'wpo-ips-fatturapa' ),
+				'N6.4' => __( 'Reverse charge - transactions in the energy sector', 'wpo-ips-fatturapa' ),
+				'N6.5' => __( 'Reverse charge - other cases (e.g., scrap metal, construction)', 'wpo-ips-fatturapa' ),
+				'N6.6' => __( 'Reverse charge - purchase of goods and services under special regulations', 'wpo-ips-fatturapa' ),
+				'N6.7' => __( 'Reverse charge - transactions under VAT exemption due to the supplier', 'wpo-ips-fatturapa' ),
+				'N6.8' => __( 'Reverse charge - operations with public administrations or equivalent', 'wpo-ips-fatturapa' ),
+				'N7'   => __( 'VAT-exempt transactions under special schemes', 'wpo-ips-fatturapa' ),
+			);
 		}
 
 	}
