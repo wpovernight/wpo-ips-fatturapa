@@ -122,6 +122,7 @@ if ( ! class_exists( 'WPO_IPS_FatturaPA' ) ) {
 			add_filter( 'wpo_wcpdf_settings_fields_documents_invoice_ubl', array( $this, 'add_additional_settings_fields' ), 10, 5 );
 			add_filter( 'wpo_wcpdf_document_settings_categories', array( $this, 'map_additional_settings_fields_to_categories' ), 10, 3 );
 			add_filter( 'wpo_wcpdf_ubl_tax_reasons', array( $this, 'add_tax_reasons' ) );
+			add_filter( 'wpo_ips_ubl_get_tax_data_from_fallback_vat_exempt', array( $this, 'vat_exempt_fallback' ), 10, 4 );
 		}
 		
 		/**
@@ -374,6 +375,23 @@ if ( ! class_exists( 'WPO_IPS_FatturaPA' ) ) {
 				'N6.8' => __( 'Reverse charge - operations with public administrations or equivalent', 'wpo-ips-fatturapa' ),
 				'N7'   => __( 'VAT-exempt transactions under special schemes', 'wpo-ips-fatturapa' ),
 			);
+		}
+		
+		/**
+		 * VAT exempt fallback
+		 *
+		 * @param string $result
+		 * @param string $key
+		 * @param int|null $rate_id
+		 * @param \WC_Abstract_Order $order
+		 * @return string
+		 */
+		public function vat_exempt_fallback( string $result, string $key, ?int $rate_id, \WC_Abstract_Order $order ): string {
+			if ( 'reason' === $key ) {
+				$result = 'N4';
+			}
+			
+			return apply_filters( 'wpo_ips_fatturapa_get_tax_data_from_fallback_vat_exempt', $result, $key, $rate_id, $order );
 		}
 
 	}
