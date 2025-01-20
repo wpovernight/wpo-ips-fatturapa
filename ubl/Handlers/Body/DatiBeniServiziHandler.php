@@ -92,6 +92,7 @@ class DatiBeniServiziHandler extends UblHandler {
 			
 			$itemTaxReasonKey = ! empty( $item['reason'] ) ? $item['reason'] : wpo_ips_ubl_get_tax_data_from_fallback( 'reason', null, $this->document->order );
 			
+			// Add the tax reason only if the total tax is 0
 			if ( 0 == $taxData['total_tax'] && 'none' !== $itemTaxReasonKey ) {
 				$datiRiepilogo['value'][] = array(
 					'name'  => 'Natura',
