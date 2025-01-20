@@ -70,29 +70,49 @@ class DatiBeniServiziHandler extends UblHandler {
 			);
 		}
 		
-		$datiRiepilogo = array();
+		$datiRiepilogo = array(
+			'name'  => 'DatiRiepilogo',
+			'value' => array(),
+		);
+		
+		// Fallback if no tax data is available
+		if ( empty( $itemTaxData ) ) {
+			$itemTaxData[] = array(
+				'percentage' => 0,
+				'total_ex'   => $this->document->order->get_total(),
+				'total_tax'  => 0,
+			);
+		}
 		
 		foreach ( $itemTaxData as $taxData ) {
-			$datiRiepilogo[] = array(
-				'name'  => 'DatiRiepilogo',
-				'value' => array(
-					array(
-						'name'  => 'AliquotaIVA',
-						'value' => round( $taxData['percentage'], 2 ),
-					),
-					array(
-						'name'  => 'ImponibileImporto',
-						'value' => round( $taxData['total_ex'], 2 ),
-					),
-					array(
-						'name'  => 'Imposta',
-						'value' => round( $taxData['total_tax'], 2 ),
-					),
-					array(
-						'name'  => 'EsigibilitaIVA',
-						'value' => 'I',
-					),
-				),
+			$datiRiepilogo['value'][] = array(
+				'name'  => 'AliquotaIVA',
+				'value' => round( $taxData['percentage'], 2 ),
+			);
+			
+			$itemTaxReasonKey = ! empty( $item['reason'] ) ? $item['reason'] : wpo_ips_ubl_get_tax_data_from_fallback( 'reason', null, $this->document->order );
+			
+			// Add the tax reason only if the total tax is 0
+			if ( 0 == $taxData['total_tax'] && 'none' !== $itemTaxReasonKey ) {
+				$datiRiepilogo['value'][] = array(
+					'name'  => 'Natura',
+					'value' => $itemTaxReasonKey,
+				);
+			}
+			
+			$datiRiepilogo['value'][] = array(
+				'name'  => 'ImponibileImporto',
+				'value' => round( $taxData['total_ex'], 2 ),
+			);
+			
+			$datiRiepilogo['value'][] = array(
+				'name'  => 'Imposta',
+				'value' => round( $taxData['total_tax'], 2 ),
+			);
+			
+			$datiRiepilogo['value'][] = array(
+				'name'  => 'EsigibilitaIVA',
+				'value' => 'I',
 			);
 		}
 		
